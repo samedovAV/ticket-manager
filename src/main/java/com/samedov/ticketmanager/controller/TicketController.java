@@ -2,6 +2,7 @@ package com.samedov.ticketmanager.controller;
 
 import com.samedov.ticketmanager.entity.Ticket;
 import com.samedov.ticketmanager.service.TicketService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public class TicketController {
 
     final TicketService ticketService;
 
+    @Autowired
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
@@ -37,8 +39,9 @@ public class TicketController {
     }
 
     @PutMapping("/ticket/{id}")
-    private void updateTicket(@PathVariable("id") Long id) {
-        ticketService.update(id);
+    private Ticket updateTicket(@PathVariable("id") Ticket ticketFromDb,
+                              @RequestBody Ticket ticket) {
+        return ticketService.update(ticket, ticketFromDb);
     }
 
 }

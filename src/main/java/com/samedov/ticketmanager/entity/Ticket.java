@@ -1,22 +1,22 @@
 package com.samedov.ticketmanager.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import javax.persistence.*;
 
 @Entity
+@Table
+@ToString(of = {"id", "ticketName", "ticketDescription"})
+@EqualsAndHashCode(of = {"id"})
 public class Ticket {
 
     @Id
-    @GeneratedValue
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "ticket_name")
     private String ticketName;
 
-    @Column(name = "ticket_description")
     private String ticketDescription;
 
     public void setId(Long id) {

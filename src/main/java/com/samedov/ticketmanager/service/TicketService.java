@@ -2,6 +2,7 @@ package com.samedov.ticketmanager.service;
 
 import com.samedov.ticketmanager.entity.Ticket;
 import com.samedov.ticketmanager.repository.TicketRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -36,12 +37,8 @@ public class TicketService {
         ticketRepository.save(ticket);
     }
 
-    public void update(Long id) {
-        Ticket ticket = ticketRepository.findById(id).orElse(null);
-        if (ticket == null) {
-            throw new EntityNotFoundException("No ticket with id " + id);
-        }
-        ticket.setTicketName("new name");
-        ticketRepository.save(ticket);
+    public Ticket update(Ticket ticket, Ticket ticketFromDb) {
+        BeanUtils.copyProperties(ticket, ticketFromDb, "id");
+        return ticketRepository.save(ticketFromDb);
     }
 }
